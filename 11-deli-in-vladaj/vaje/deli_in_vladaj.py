@@ -24,7 +24,7 @@ def merge(target, list_1, list_2):
     i = 0
     list_1.reverse()
     list_2.reverse()
-    while min(len(list_1), len(list_2)):
+    while min(len(list_1), len(list_2))>0:
         if list_1[-1] > list_2[-1]:
             target[i] = list_2.pop()
         else:

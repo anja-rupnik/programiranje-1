@@ -93,7 +93,17 @@ let convert_path mat pot =
  # alternating_towers 10;;
  - : int = 35
 [*----------------------------------------------------------------------------*)
-
+let alternating_towers visina =
+  let rec r_zac vis =
+    if vis < 3 then 1
+    else m_zac (vis -1) + m_zac (vis-2) 
+  and m_zac vis =
+    if vis < 2 then 0
+    else if vis = 2 then 1
+    else if vis = 3 then 2 
+    else r_zac (vis-3) + r_zac (vis-2)
+  in
+  r_zac visina + m_zac visina
 
 
 (*----------------------------------------------------------------------------*]
@@ -126,6 +136,23 @@ and blue_tower = TopBlue of blue_block * red_tower | BlueBottom
 
 type tower = Red of red_tower | Blue of blue_tower
 
+let enumerate_towers visina =
+  let lst =ref [] in
+  let rec r_zac vis sez =
+    if vis < 1 then ()
+    else if vis = 2 then 
+      lst := Red (TopRed (Red2, sez)) :: !lst
+    else if vis =1 then lst := Red (TopRed (Red1, sez)) :: !lst
+    else (m_zac (vis-1) (TopRed (Red1, sez));  m_zac (vis-2) (TopRed (Red2, sez)))
+  and m_zac vis sez =
+    if vis < 2 then print_int(vis)
+    else if vis = 2 then lst := Blue (TopBlue (Blue2, sez)) :: !lst
+    else if vis = 3 then lst := Blue (TopBlue (Blue3, sez)) :: Red (TopRed (Red1, TopBlue (Blue2, sez))) :: !lst
+    else (r_zac (vis-3) (TopBlue(Blue3, sez)); r_zac (vis-2) (TopBlue(Blue2, sez)))
+  in
+  r_zac visina BlueBottom ; m_zac visina RedBottom; !lst
+
+
 (*----------------------------------------------------------------------------*]
  Vdrli ste v tovarno čokolade in sedaj stojite pred stalažo kjer so ena ob
  drugi naložene najboljše slaščice. Želite si pojesti čim več sladkorja, a
@@ -147,3 +174,29 @@ type tower = Red of red_tower | Blue of blue_tower
 [*----------------------------------------------------------------------------*)
 
 let test_shelf = [1;2;-5;3;7;19;-30;1;0]
+
+let ham_ham shelf k =
+  let rec prep q shelq acc =
+    match shelq, q with
+      |[], _ -> [], acc
+      |_, 0 -> shelq, acc
+      |x::xs, q -> prep (q-1) xs (false :: acc) (*tale acc je reversed list actually, ampak so itak same false tko da je vseen*)
+  in
+  let rec ham shelf k =
+    match shelf with
+    |[] -> 0, []
+    |x::xs -> let ja = 
+      let polica, acc = prep k xs [] in
+      let y, sez = ham polica k in
+      y + x, true :: acc @ sez
+      and
+      ne =
+        let y, sez = ham xs k in
+        y, false :: sez
+    in
+    max ja ne
+  in
+  let st, sez = ham shelf k in
+  sez
+
+

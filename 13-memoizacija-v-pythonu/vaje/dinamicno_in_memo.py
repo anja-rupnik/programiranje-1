@@ -1,4 +1,4 @@
-from functools import cache
+from functools import lru_cache
 # =============================================================================
 # Najdaljše naraščajoče podzaporedje
 # =============================================================================
@@ -11,7 +11,7 @@ from functools import cache
 # podzaporedje `[2, 3, 4, 4, 6, 7, 8, 9]`.
 # -----------------------------------------------------------------------------
 def najdaljse_narascajoce_podazporedje(sez):
-    @cache
+    @lru_cache
     def aux(z, i):
         if len(sez) == i:
             return 0
@@ -27,7 +27,7 @@ s3 = [float("-inf"), 1, float("-inf"), 6]
 s4 = []
 
 def najdaljse_narascajoce_podazporedje(sez):
-    @cache
+    @lru_cache
     def aux(z, i):
         if len(sez) == i:
             return []
@@ -46,7 +46,7 @@ def najdaljse_narascajoce_podazporedje(sez):
 # najdaljših naraščajočih podzaporedij.
 # -----------------------------------------------------------------------------
 def najdaljse_narascajoce_podazporedje(sez):
-    @cache
+    @lru_cache
     def aux(z, i):
         if len(sez) == i:
             return [[]]
@@ -93,12 +93,10 @@ def zabica(mocvara):
     def aux(e, i):
         if len(mocvara) <= i:
             return 0
-        elif len(mocvara) <= i+e:
-            return 1
         elif e <0:
             return float("inf")
         else:
-            return min(1 + aux(e-1+mocvara[i],i+1), aux(e-1, i+1))
+            return  min(1+aux(e-1+mocvara[i],i+1), aux(e-1, i+1))
     return aux(0, 0)
 
 m1 = [2, 4, 1, 2, 1, 3, 1, 1, 5]
@@ -278,5 +276,5 @@ def pot_pobega(soba, vrsta, stolpec, koraki):
         return "None"
     return vrni
 
-m1 = [[0, 1, 0, 0, 2],[0, 2, 2, 0, 0],[0, 0, 2, 2, 0],[2, 0, 0, 2, 0],[0, 2, 2, 0, 0],[0, 0, 0, 2, 2]]
-m2 = [[0, 1, 0, 0, 2],[0, 2, 2, 0, 0],[0, 0, 2, 2, 0],[2, 0, 0, 0, 0],[0, 2, 2, 0, 0],[0, 0, 0, 2, 2]]
+ma1 = [[0, 1, 0, 0, 2],[0, 2, 2, 0, 0],[0, 0, 2, 2, 0],[2, 0, 0, 2, 0],[0, 2, 2, 0, 0],[0, 0, 0, 2, 2]]
+ma2 = [[0, 1, 0, 0, 2],[0, 2, 2, 0, 0],[0, 0, 2, 2, 0],[2, 0, 0, 0, 0],[0, 2, 2, 0, 0],[0, 0, 0, 2, 2]]

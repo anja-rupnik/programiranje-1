@@ -194,6 +194,7 @@ let rec delete x drevo =
      match (x, drevo) with
      |(y, Prazno) -> Prazno
      |(y, Sestavljeno(l, z, d)) when y < z -> Sestavljeno(delete x l, z, d)
+     |(y, Sestavljeno(l, z, d)) when y > z -> Sestavljeno(l, z, delete x d)
      |(y, Sestavljeno(l, z, d)) when y = z -> match succ (Sestavljeno(l, z, d)) with
                                                   |None -> l
                                                   |Some w -> Sestavljeno(l, w, delete w d)

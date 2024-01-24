@@ -204,7 +204,7 @@ let rec fold_left_no_acc f list =
 
 let rec apply_sequence f x n =
   let rec aux f x n acc =
-    if n < 1 then reverse acc else aux f (f x) (n-1) (x:: acc)
+    if n < 0 then reverse acc else aux f (f x) (n-1) (x:: acc)
   in
   aux f x n []
 (*----------------------------------------------------------------------------*]

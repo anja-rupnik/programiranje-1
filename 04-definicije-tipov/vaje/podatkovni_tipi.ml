@@ -237,5 +237,5 @@ let rec find_candidate rmagic position list =
        | [] -> None
        | {name; status}::ostali -> 
               match status with
-              | Student (magic, l) when magic = rmagic && l = qulified -> Some name
+              | Student (magic, l) when magic = rmagic && l >= qulified -> Some name
               | _ -> find_candidate rmagic position ostali
